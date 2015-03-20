@@ -33,25 +33,25 @@ module.exports = function(grunt) {
     watch: {
       sass: {
         files: ['<%%= config.src %>/{,*/}*.scss'],
-        tasks: ['sass'],
-        options: {
-          livereload: true
-        }
-      },
-      js: {
-        files: ['<%%= config.src %>/{,*/}*.js'],
-        tasks: ['jshint'],
-        options: {
-          livereload: true
-        }
-      },
-      livereload: {
-        options: {
-          livereload: true
-        },
-        files: [
-          '<%%= config.src %>/{,*/}*.html'
+        tasks: ['sass']
+      }
+    },
+
+    // browserSync
+    browserSync: {
+      bsFiles: {
+        src: [
+          '<%= config.src %>/{,*/}*.css',
+          '<%= config.src %>/{,*/}*.html',
+          '<%= config.src %>/{,*/}*.js'
         ]
+      },
+      options: {
+        server: {
+          baseDir: "./",
+          port: '3001'
+        },
+        watchTask: true // < VERY important
       }
     },
 
@@ -60,13 +60,18 @@ module.exports = function(grunt) {
       dist: {
         options: {
           style: 'compact',
-          noCache: true
+          noCache: true,
+          loadPath: [
+              'bower_components/compass-mixins/lib/',
+              'bower_components/font-awesome/scss/',
+              'bower_components/bourbon/app/assets/stylesheets/'
+            ]
         },
         files: [{
           expand: true,
-          cwd: '<%%= config.src %>/',
+          cwd: '<%= config.src %>/scss',
           src: ['{,*/}*.scss'],
-          dest: '<%%= config.src %>',
+          dest: '<%= config.src %>/css',
           ext: '.css'
         }]
       }
@@ -77,7 +82,7 @@ module.exports = function(grunt) {
       all: {
         src: '<%%= config.src %>/img/sprites/*.png',
         dest: '<%%= config.src %>/img/spritesheet.png',
-        destCss: '<%%= config.src %>/css/sprites.css'
+        destCss: '<%%= config.src %>/css/sprites.scss'
       }
     },
 
@@ -108,6 +113,21 @@ module.exports = function(grunt) {
             '{,*/}*.html',
             'img/**'
           ]
+        }, {
+          expand: true,
+          flatten: true,
+          src: ['bower_components/font-awesome/fonts/**'],
+          dest: '<%= config.dist %>/fonts/',
+          filter: 'isFile'
+        }]
+      },
+      fontscopy: {
+        files: [{
+          expand: true,
+          flatten: true,
+          src: ['bower_components/font-awesome/fonts/**'],
+          dest: '<%= config.src %>/fonts/',
+          filter: 'isFile'
         }]
       }
     },
@@ -185,8 +205,14 @@ module.exports = function(grunt) {
     'clean:tmp',
   ]);
 
+  //init
+  grunt.registerTask('init', [
+    'copy:fontscopy'
+  ]);
+
   //defaul
   grunt.registerTask('default', [
+    'browserSync',
     'watch'
   ]);
 };
