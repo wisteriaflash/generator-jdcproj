@@ -41,16 +41,16 @@ module.exports = function(grunt) {
     browserSync: {
       bsFiles: {
         src: [
-          '<%= config.src %>/{,*/}*.css',
-          '<%= config.src %>/{,*/}*.html',
-          '<%= config.src %>/{,*/}*.js'
+          '<%%= config.src %>/**/*.css',
+          '<%%= config.src %>/**/*.html',
+          '<%%= config.src %>/{,*/}*.js'
         ]
       },
       options: {
         server: {
-          baseDir: "./",
-          port: '3001'
+          baseDir: "./"
         },
+        startPath: '/src/html/index.html',
         watchTask: true // < VERY important
       }
     },
@@ -62,16 +62,15 @@ module.exports = function(grunt) {
           style: 'compact',
           noCache: true,
           loadPath: [
-              'bower_components/compass-mixins/lib/',
-              'bower_components/font-awesome/scss/',
-              'bower_components/bourbon/app/assets/stylesheets/'
-            ]
+            'bower_components/normalize-scss/',
+            'bower_components/bourbon/app/assets/stylesheets/'
+          ]
         },
         files: [{
           expand: true,
-          cwd: '<%= config.src %>/scss',
+          cwd: '<%%= config.src %>/scss',
           src: ['{,*/}*.scss'],
-          dest: '<%= config.src %>/css',
+          dest: '<%%= config.src %>/css',
           ext: '.css'
         }]
       }
@@ -79,10 +78,10 @@ module.exports = function(grunt) {
 
     //sprite
     sprite: {
-      all: {
-        src: '<%%= config.src %>/img/sprites/*.png',
-        dest: '<%%= config.src %>/img/spritesheet.png',
-        destCss: '<%%= config.src %>/css/sprites.scss'
+      icons: {
+        src: '<%%= config.src %>/img/icon-sprites/*.png',
+        dest: '<%%= config.src %>/img/sprites.png',
+        destCss: '<%%= config.src %>/css/_sprites.scss'
       }
     },
 
@@ -113,21 +112,6 @@ module.exports = function(grunt) {
             '{,*/}*.html',
             'img/**'
           ]
-        }, {
-          expand: true,
-          flatten: true,
-          src: ['bower_components/font-awesome/fonts/**'],
-          dest: '<%= config.dist %>/fonts/',
-          filter: 'isFile'
-        }]
-      },
-      fontscopy: {
-        files: [{
-          expand: true,
-          flatten: true,
-          src: ['bower_components/font-awesome/fonts/**'],
-          dest: '<%= config.src %>/fonts/',
-          filter: 'isFile'
         }]
       }
     },
@@ -160,6 +144,9 @@ module.exports = function(grunt) {
 
     // uglify
     uglify: {
+      options: {
+        except: ['<%= config.src %>/src/libs']
+      },
       dist: {
         files: [{
           expand: true,
@@ -192,6 +179,64 @@ module.exports = function(grunt) {
           maxBytes: 2048,
         }
       }
+    },
+    bowercopy: {
+      options: {
+        // Bower components folder will be removed afterwards
+        // clean: true
+      },
+      // Javascript
+      libs: {
+        options: {
+          destPrefix: 'src/libs'
+        },
+        files: {
+          'zepto.min.js': 'zepto-full/zepto.min.js',
+          'hammer.min.js': 'hammer.js/hammer.min.js'
+        }
+      }
+    },
+    // ftp (使用时，请更改.ftppass中ftp的账户信息)
+    ftpscript: {
+      all: {
+        options: {
+          host: '192.168.144.59',
+          authKey: 'myhost',
+          type: 'binary'
+        },
+        files: [{
+          expand: true,
+          cwd: 'dist',
+          src: ['**'],
+          dest: '/test/dist/'
+        }]
+      },
+      codefile: { //only code files
+        options: {
+          host: '192.168.144.59',
+          authKey: 'myhost',
+          type: 'binary'
+        },
+        files: [{
+          expand: true,
+          cwd: 'dist',
+          src: ['**/*.html', '**/*.css', '**/*.js', '!libs/**'],
+          dest: '/test/dist/'
+        }]
+      },
+      imgfile: { //only img files
+        options: {
+          host: '192.168.144.59',
+          authKey: 'myhost',
+          type: 'binary'
+        },
+        files: [{
+          expand: true,
+          cwd: 'dist',
+          src: ['img/**'],
+          dest: '/test/dist/'
+        }]
+      }
     }
 
   });
@@ -201,14 +246,14 @@ module.exports = function(grunt) {
     'clean:dist',
     'cssmin',
     'uglify',
-    'copy',
-    'clean:tmp',
+    'copy:dist',
   ]);
 
-  //init
+  //init-初始化运行
   grunt.registerTask('init', [
-    'copy:fontscopy'
+    'bowercopy'
   ]);
+
 
   //defaul
   grunt.registerTask('default', [

@@ -49,13 +49,19 @@ module.exports = yeoman.generators.Base.extend({
   editorConfig: function () {
     this.copy('editorconfig', '.editorconfig');
   },
+  ftppass: function () {
+    this.copy('.ftppass', '.ftppass');
+  },
+  readme: function () {
+    this.copy('README.md', 'README.md');
+  },
 
   //app
   app: function(){
     this.directory('src');
     //src
     this.mkdir('src/js');
-    this.mkdir('src/css');
+    this.mkdir('src/scss');
     this.mkdir('src/img');
     this.mkdir('src/html');
     //dist
