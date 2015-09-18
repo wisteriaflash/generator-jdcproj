@@ -1,4 +1,4 @@
-#generater - jdc
+#generater - jdcproj
 
 
 ### 前期准备
@@ -10,7 +10,7 @@
 
 ### 安装
 
-* 创建新的项目文件夹，yoman脚手架使用：`yo jdc`
+* 创建新的项目文件夹，yoman脚手架使用：`yo jdcproj`
 
 
 
