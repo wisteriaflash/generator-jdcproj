@@ -10,9 +10,6 @@
 
 ### 安装
 
-* 下载脚手架：`git clone git@github.com:wisteriaflash/generator-jdc.git` 或者 `yo jdcproj`
-* 进入脚手架文件夹，安装npm依赖：`npm install`
-* 添加全局link，运行命令：`npm link`
 * 创建新的项目文件夹，yoman脚手架使用：`yo jdcproj`
 
 
