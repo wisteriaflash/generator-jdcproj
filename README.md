@@ -9,7 +9,7 @@
 
 
 ### 安装
-
+* 安装脚手架：`npm install generater-jdcproj -g`
 * 创建新的项目文件夹，yoman脚手架使用：`yo jdcproj`
 
 
