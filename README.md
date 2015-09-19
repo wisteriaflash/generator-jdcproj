@@ -1,4 +1,4 @@
-#generater - jdcproj
+#generater - moproj
 
 
 ### 前期准备
@@ -9,8 +9,8 @@
 
 
 ### 安装
-* 安装脚手架：`npm install generater-jdcproj -g`
-* 创建新的项目文件夹，yoman脚手架使用：`yo jdcproj`
+* 安装脚手架：`npm install generater-moproj -g`
+* 创建新的项目文件夹，yoman脚手架使用：`yo moproj`
 
 
 
