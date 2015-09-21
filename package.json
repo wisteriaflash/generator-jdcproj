@@ -1,6 +1,6 @@
 {
-  "name": "generator-jdcproj",
-  "version": "0.0.2",
+  "name": "generator-moproj",
+  "version": "0.0.3",
   "description": "Yeoman generator",
   "license": "MIT",
   "main": "app/index.js",

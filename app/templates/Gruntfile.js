@@ -59,9 +59,9 @@ module.exports = function(grunt) {
     sass: {
       dist: {
         options: {
-          style: 'compact',
-          noCache: true,
-          loadPath: [
+          outputStyle: 'compressed',
+          sourceMap: true,
+          includePaths: [
             'bower_components/normalize-scss/',
             'bower_components/bourbon/app/assets/stylesheets/'
           ]
